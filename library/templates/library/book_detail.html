@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {{ book.title }} | Digital Library
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="book-detail">
+
+        <a href="{% url 'book_list' %}" class="back-link">
+            ← Back to books
+        </a>
+
+
+        <h1>
+            {{ book.title }}
+        </h1>
+
+
+        <p class="author">
+            By {{ book.author.name }}
+        </p>
+
+
+        {% if book.available %}
+
+            <p class="available">
+                Available
+            </p>
+
+
+            {% if user.is_authenticated %}
+
+                <a
+                    href="{% url 'borrow_book' book.id %}"
+                    class="button"
+                >
+                    Borrow book
+                </a>
+
+            {% else %}
+
+                <p>
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+                    to borrow this book.
+                </p>
+
+            {% endif %}
+
+
+        {% else %}
+
+            <p class="unavailable">
+                Currently unavailable
+            </p>
+
+        {% endif %}
+
+
+    </section>
+
+
+    <section class="reviews">
+
+        <div class="section-title">
+
+            <h2>
+                Reviews
+            </h2>
+
+
+            {% if user.is_authenticated %}
+
+                <a
+                    href="{% url 'add_review' book.id %}"
+                    class="button secondary"
+                >
+                    Add review
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        {% for review in reviews %}
+
+            <article class="review-card">
+
+                <p>
+                    <strong>
+                        {{ review.user.username }}
+                    </strong>
+                </p>
+
+                <p class="rating">
+                    Rating: {{ review.rating }}/5
+                </p>
+
+                <p>
+                    {{ review.comment }}
+                </p>
+
+            </article>
+
+        {% empty %}
+
+            <p>
+                No reviews yet.
+            </p>
+
+        {% endfor %}
+
+    </section>
+
+{% endblock %}

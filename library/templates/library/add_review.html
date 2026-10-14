@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Review {{ book.title }}
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="form-container">
+
+        <h1>
+            Review {{ book.title }}
+        </h1>
+
+        <p>
+            By {{ book.author.name }}
+        </p>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="button">
+                Submit review
+            </button>
+
+        </form>
+
+
+        <a href="{% url 'book_detail' book.id %}">
+            Back to book
+        </a>
+
+    </section>
+
+{% endblock %}

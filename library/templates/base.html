@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            Digital Library
+        {% endblock %}
+    </title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'library/css/style.css' %}">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="container nav-container">
+
+            <a href="{% url 'book_list' %}" class="logo">
+                Digital Library
+            </a>
+
+            <nav>
+
+                <a href="{% url 'book_list' %}">
+                    Books
+                </a>
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'loan_history' %}">
+                        My Loans
+                    </a>
+
+                    <span class="username">
+                        {{ user.username }}
+                    </span>
+
+                    <form
+                        action="{% url 'logout' %}"
+                        method="POST"
+                        class="logout-form"
+                    >
+                        {% csrf_token %}
+
+                        <button type="submit" class="nav-button">
+                            Logout
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+                        Login
+                    </a>
+
+                    <a href="{% url 'register' %}">
+                        Register
+                    </a>
+
+                {% endif %}
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Digital Library
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

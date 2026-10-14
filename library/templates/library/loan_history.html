@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    My Loans | Digital Library
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="page-header">
+
+        <h1>
+            My Loan History
+        </h1>
+
+        <p>
+            View your current and previous book loans.
+        </p>
+
+    </section>
+
+
+    {% for loan in loans %}
+
+        <article class="loan-card">
+
+            <h2>
+                {{ loan.book.title }}
+            </h2>
+
+            <p>
+                Borrowed:
+                {{ loan.loan_date }}
+            </p>
+
+
+            {% if loan.returned %}
+
+                <p class="returned">
+                    Returned
+                </p>
+
+                <p>
+                    Return date:
+                    {{ loan.return_date }}
+                </p>
+
+            {% else %}
+
+                <p class="unavailable">
+                    Currently borrowed
+                </p>
+
+                <a
+                    href="{% url 'return_book' loan.id %}"
+                    class="button"
+                >
+                    Return book
+                </a>
+
+            {% endif %}
+
+        </article>
+
+    {% empty %}
+
+        <p>
+            You have no loans yet.
+        </p>
+
+    {% endfor %}
+
+{% endblock %}
